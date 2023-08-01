@@ -2,6 +2,7 @@ package Operaciones;
 
 public class Persona {
 
+	private String documento;
 	private String nombre;
 	private double nota1;
 	private double nota2;
@@ -38,6 +39,12 @@ public class Persona {
 	}
 	public void setPromedio(double promedio) {
 		this.promedio = promedio;
+	}
+	public String getDocumento() {
+		return documento;
+	}
+	public void setDocumento(String documento) {
+		this.documento = documento;
 	}
 	
 	@Override

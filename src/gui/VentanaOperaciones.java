@@ -41,6 +41,8 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 	//instanciamos la clase procesos donde realizamos las tareas
 	Procesos misProcesos;
 	private JButton btnImprimir;
+	private JButton btnConsultar;
+	private JTextField txtDocumento;
 
 	/**
 	 * Launch the application.
@@ -63,8 +65,9 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 	 */
 	public VentanaOperaciones() {
 		misProcesos = new Procesos();
+		//Esta instruccion cierra todos los jframe por eso se comenta
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 472);
 		setTitle("CALCULO DE PROMEDIO");
 		setLocationRelativeTo(null);
 		setResizable(false);
@@ -92,7 +95,7 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 		panelPrincipal.add(lblNombre);
 		
 		txtNombre = new JTextField();
-		txtNombre.setBounds(85, 46, 309, 19);
+		txtNombre.setBounds(85, 46, 170, 19);
 		panelPrincipal.add(txtNombre);
 		txtNombre.setColumns(10);
 		
@@ -151,15 +154,26 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 		
 		btnCalcular = new JButton("Calcular");
 		btnCalcular.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnCalcular.setBounds(243, 198, 151, 33);
+		btnCalcular.setBounds(85, 198, 309, 33);
 		btnCalcular.addActionListener(this);
 		panelPrincipal.add(btnCalcular);
 		
 		btnImprimir = new JButton("Imprimir");
 		btnImprimir.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnImprimir.setBounds(62, 198, 151, 33);
+		btnImprimir.setBounds(14, 278, 151, 33);
 		btnImprimir.addActionListener(this);
 		panelPrincipal.add(btnImprimir);
+		
+		btnConsultar = new JButton("Consultar");
+		btnConsultar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnConsultar.setBounds(243, 278, 151, 33);
+		btnConsultar.addActionListener(this);
+		panelPrincipal.add(btnConsultar);
+		
+		txtDocumento = new JTextField();
+		txtDocumento.setColumns(10);
+		txtDocumento.setBounds(344, 46, 60, 19);
+		panelPrincipal.add(txtDocumento);
 	}
 
 	@Override
@@ -168,6 +182,11 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 			calcularPromedio();
 		}else if(e.getSource()==btnImprimir) {
 			misProcesos.listarPersonas();
+		}else if(e.getSource()==btnConsultar) {
+			VentanaConsulta ventanaConsulta = new VentanaConsulta(misProcesos);
+			ventanaConsulta.setVisible(true);
+		}else {
+			
 		}
 		
 	}
@@ -177,6 +196,7 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 		//Creamos un objeto para dar soporte a los datos
 		Persona estudiante = new Persona();
 		estudiante.setNombre(txtNombre.getText());
+		estudiante.setDocumento(txtDocumento.getText());
 		
 		try {
 			estudiante.setNota1(Double.parseDouble(txtNota1.getText()));
