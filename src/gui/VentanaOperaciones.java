@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Operaciones.Persona;
 import Operaciones.Procesos;
 
 import javax.swing.JLabel;
@@ -39,6 +40,7 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 	
 	//instanciamos la clase procesos donde realizamos las tareas
 	Procesos misProcesos;
+	private JButton btnImprimir;
 
 	/**
 	 * Launch the application.
@@ -152,35 +154,50 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 		btnCalcular.setBounds(243, 198, 151, 33);
 		btnCalcular.addActionListener(this);
 		panelPrincipal.add(btnCalcular);
+		
+		btnImprimir = new JButton("Imprimir");
+		btnImprimir.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnImprimir.setBounds(62, 198, 151, 33);
+		btnImprimir.addActionListener(this);
+		panelPrincipal.add(btnImprimir);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnCalcular) {
 			calcularPromedio();
+		}else if(e.getSource()==btnImprimir) {
+			misProcesos.listarPersonas();
 		}
 		
 	}
 	
 	public void calcularPromedio() {
-		String nombre = txtNombre.getText();
+		
+		//Creamos un objeto para dar soporte a los datos
+		Persona estudiante = new Persona();
+		estudiante.setNombre(txtNombre.getText());
+		
 		try {
-			double n1 = Double.parseDouble(txtNota1.getText());
-			double n2 = Double.parseDouble(txtNota2.getText());
-			double n3 = Double.parseDouble(txtNota3.getText());
+			estudiante.setNota1(Double.parseDouble(txtNota1.getText()));
+			estudiante.setNota2(Double.parseDouble(txtNota2.getText()));
+			estudiante.setNota3(Double.parseDouble(txtNota3.getText()));
 			
-			double promedio = misProcesos.calcularPromedio(n1, n2, n3);
-			System.out.println(promedio);
+			estudiante.setPromedio(misProcesos.calcularPromedio(estudiante));
+			System.out.println(estudiante.getPromedio());
 			
-			lblResPromedio.setText(String.valueOf(promedio));
+			lblResPromedio.setText(String.valueOf(estudiante.getPromedio()));
 			
-			if(misProcesos.determinarAprobado(promedio).equals("Aprobado")) {
+			if(misProcesos.determinarAprobado(estudiante.getPromedio()).equals("Aprobado")) {
 				lblResResultado.setText("Aprobado");
 				lblResResultado.setForeground(Color.GREEN);
 			}else {
 				lblResResultado.setText("Reprobado");
 				lblResResultado.setForeground(Color.RED);
 			}
+			
+			misProcesos.registrarBD(estudiante);
+			
 		}catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(null, "Se solicita un valor numerico ¡No texto en un campo!","Error",JOptionPane.ERROR_MESSAGE);
 		} 
