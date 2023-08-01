@@ -169,12 +169,12 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 			double n2 = Double.parseDouble(txtNota2.getText());
 			double n3 = Double.parseDouble(txtNota3.getText());
 			
-			double promedio = (n1+n2+n3)/3;
+			double promedio = misProcesos.calcularPromedio(n1, n2, n3);
 			System.out.println(promedio);
 			
 			lblResPromedio.setText(String.valueOf(promedio));
 			
-			if(promedio>=4.0) {
+			if(misProcesos.determinarAprobado(promedio).equals("Aprobado")) {
 				lblResResultado.setText("Aprobado");
 				lblResResultado.setForeground(Color.GREEN);
 			}else {
