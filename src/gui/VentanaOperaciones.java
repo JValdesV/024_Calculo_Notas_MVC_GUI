@@ -37,6 +37,7 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 	private JButton btnCalcular;
 	private JLabel lblResPromedio;
 	private JLabel lblResResultado;
+	private JButton btnConsultaGeneral;
 	
 	//instanciamos la clase procesos donde realizamos las tareas
 	Procesos misProcesos;
@@ -175,6 +176,12 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 		txtDocumento.setColumns(10);
 		txtDocumento.setBounds(344, 46, 60, 19);
 		panelPrincipal.add(txtDocumento);
+		
+		btnConsultaGeneral = new JButton("Consulta General");
+		btnConsultaGeneral.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnConsultaGeneral.setBounds(112, 333, 198, 33);
+		btnConsultaGeneral.addActionListener(this);
+		panelPrincipal.add(btnConsultaGeneral);
 	}
 
 	@Override
@@ -197,8 +204,11 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 			ventanaConsulta.asignarProcesos(misProcesos);
 			ventanaConsulta.setVisible(true);
 			
-		}else{
-			
+		}else if(e.getSource()==btnConsultaGeneral){
+			VentanaConsultaPersonas miVentanaPersonas = new VentanaConsultaPersonas();
+			miVentanaPersonas.setProcesos(misProcesos);
+			miVentanaPersonas.llenarTabla();
+			miVentanaPersonas.setVisible(true);
 		}
 		
 	}
@@ -238,8 +248,4 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 		}
 		
 	}
-	
-	
-	
-
 }
