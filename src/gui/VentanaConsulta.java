@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import Operaciones.Persona;
 import Operaciones.Procesos;
 
 import javax.swing.JLabel;
@@ -60,10 +61,12 @@ public class VentanaConsulta extends JFrame implements ActionListener{
 		iniciarComponenetes();
 		
 	}
-	
+	//Primera opcion para agregar objeto misProcesos
+	/*
 	public VentanaConsulta(Procesos misProcesos) {
 		this.misProcesos = misProcesos;
 	}
+	*/
 
 	public void iniciarComponenetes() {
 
@@ -148,19 +151,9 @@ public class VentanaConsulta extends JFrame implements ActionListener{
 		lblResResultado.setBounds(85, 157, 309, 13);
 		panelPrincipal_1.add(lblResResultado);
 		
-		JButton btnCalcular = new JButton("Calcular");
-		btnCalcular.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnCalcular.setBounds(85, 198, 309, 33);
-		panelPrincipal_1.add(btnCalcular);
-		
-		JButton btnImprimir = new JButton("Imprimir");
-		btnImprimir.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnImprimir.setBounds(14, 278, 151, 33);
-		panelPrincipal_1.add(btnImprimir);
-		
 		btnConsultar = new JButton("Consultar");
 		btnConsultar.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		btnConsultar.setBounds(243, 278, 151, 33);
+		btnConsultar.setBounds(14, 193, 390, 33);
 		btnConsultar.addActionListener(this);
 		
 		panelPrincipal_1.add(btnConsultar);
@@ -172,15 +165,34 @@ public class VentanaConsulta extends JFrame implements ActionListener{
 		panelPrincipal_1.add(txtDocumento);
 		
 		JLabel lblNewLabel_1 = new JLabel("Documento");
-		lblNewLabel_1.setBounds(278, 49, 60, 13);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel_1.setBounds(265, 47, 73, 13);
 		panelPrincipal_1.add(lblNewLabel_1);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btnConsultar) {
-			JOptionPane.showMessageDialog(null, "Haz presionado el boton consultar");
+			Persona miEstudiante = misProcesos.obtenerEstudiante(txtDocumento.getText());
+			if(miEstudiante!=null) {
+				txtNombre.setText(miEstudiante.getNombre());
+				txtNota1.setText(String.valueOf(miEstudiante.getNota1()));
+				txtNota2.setText(String.valueOf(miEstudiante.getNota2()));
+				txtNota3.setText(String.valueOf(miEstudiante.getNota3()));
+			}else {
+				txtNombre.setText("");
+				txtNota1.setText("");
+				txtNota2.setText("");
+				txtNota3.setText("");
+				JOptionPane.showMessageDialog(null, "Error:  El registro no existe.");
+			}
+			//JOptionPane.showMessageDialog(null, "Haz presionado el boton consultar");
 		}
+		
+	}
+	//Segunda opcion para asignar el objeto procesos a la ventana
+	public void asignarProcesos(Procesos misProcesos) {
+		this.misProcesos = misProcesos;
 		
 	}
 }

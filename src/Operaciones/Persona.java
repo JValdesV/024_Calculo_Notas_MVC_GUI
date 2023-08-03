@@ -46,12 +46,13 @@ public class Persona {
 	public void setDocumento(String documento) {
 		this.documento = documento;
 	}
-	
 	@Override
 	public String toString() {
-		return "Persona [nombre=" + nombre + ", nota1=" + nota1 + ", nota2=" + nota2 + ", nota3=" + nota3
-				+ ", promedio=" + promedio + "]";
+		return "Persona [documento=" + documento + ", nombre=" + nombre + ", nota1=" + nota1 + ", nota2=" + nota2
+				+ ", nota3=" + nota3 + ", promedio=" + promedio + "]";
 	}
+	
+
 	
 	
 	

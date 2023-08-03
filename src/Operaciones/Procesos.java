@@ -2,6 +2,7 @@ package Operaciones;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Procesos {
@@ -39,6 +40,40 @@ public class Procesos {
 	
 	public void listarPersonas() {
 		listaPersonas.forEach((obj -> System.out.println(obj)));
+	}
+	
+	public Persona obtenerEstudiante(String documento) {
+		Persona p=null;
+		/*
+		//Alternativa for convencional
+		for(int i=0; i<listaPersonas.size();i++) {
+			if(listaPersonas.get(i).getDocumento()==documento) {
+				return (Persona)listaPersonas.get(i);
+			}
+		}
+		*/
+		//Alternativa orienta a POO
+		for(Persona persona: listaPersonas) {
+			if(persona.getDocumento().equals(documento)) {
+				p = persona; 
+				return p;
+			}
+			System.out.println(persona);
+		}
+		
+		
+		return null;
+	}
+	
+	//Alternativa para obtener la lista de personas
+	/*
+	public List<Persona> getListaPersona(){
+		return this.listaPersonas;
+	}*/
+	
+	//Alternativa para obtener la lista de personas
+	public ArrayList<Persona> getListaPersonas(){
+		return (ArrayList<Persona>) listaPersonas;
 	}
 	
 

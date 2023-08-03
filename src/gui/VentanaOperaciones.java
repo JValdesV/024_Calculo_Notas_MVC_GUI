@@ -164,6 +164,7 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 		btnImprimir.addActionListener(this);
 		panelPrincipal.add(btnImprimir);
 		
+		
 		btnConsultar = new JButton("Consultar");
 		btnConsultar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnConsultar.setBounds(243, 278, 151, 33);
@@ -180,12 +181,23 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnCalcular) {
 			calcularPromedio();
+		
 		}else if(e.getSource()==btnImprimir) {
-			misProcesos.listarPersonas();
+			//Creo un objeto ventanaGeneral
+			VentanaConsultaGeneral miConsultaGeneral = new VentanaConsultaGeneral();
+			//Hago visible la ventana
+			miConsultaGeneral.setVisible(true);
+			//Cargo la lista en la vista
+			miConsultaGeneral.setProcesos(misProcesos);
+			//Muestro los objetos de la lista
+			miConsultaGeneral.mostrarListaEnArea();
+		
 		}else if(e.getSource()==btnConsultar) {
-			VentanaConsulta ventanaConsulta = new VentanaConsulta(misProcesos);
+			VentanaConsulta ventanaConsulta = new VentanaConsulta();
+			ventanaConsulta.asignarProcesos(misProcesos);
 			ventanaConsulta.setVisible(true);
-		}else {
+			
+		}else{
 			
 		}
 		
