@@ -1,13 +1,16 @@
-package Operaciones;
+package modelo.operaciones;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import controlador.Coordinador;
+
 public class Procesos {
 	
 	List<Persona> listaPersonas;
+	private Coordinador miCoordinador;
 	
 	public Procesos() {
 		listaPersonas = new ArrayList<Persona>();
@@ -75,6 +78,14 @@ public class Procesos {
 	public ArrayList<Persona> getListaPersonas(){
 		return (ArrayList<Persona>) listaPersonas;
 	}
+
+
+	public void setCoordinador(Coordinador miCoordinador) {
+		this.miCoordinador = miCoordinador;
+		
+	}
+	
+	
 	
 	
 

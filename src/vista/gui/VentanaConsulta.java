@@ -1,4 +1,4 @@
-package gui;
+package vista.gui;
 
 import java.awt.EventQueue;
 
@@ -6,8 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Operaciones.Persona;
-import Operaciones.Procesos;
+import controlador.Coordinador;
+import modelo.operaciones.Persona;
+import modelo.operaciones.Procesos;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,7 +31,11 @@ public class VentanaConsulta extends JFrame implements ActionListener{
 	private JTextField txtNota3;
 	private JTextField txtDocumento;
 	private JButton btnConsultar;
-	private Procesos misProcesos;
+	private JLabel lblResPromedio;
+	private JLabel lblResResultado;
+	
+	//Se crea la variable Coordinador que establece todos los parametros necesarios
+	private Coordinador miCoordinador;
 
 	/**
 	 * Launch the application.
@@ -141,12 +146,12 @@ public class VentanaConsulta extends JFrame implements ActionListener{
 		lblResultado.setBounds(14, 157, 73, 13);
 		panelPrincipal_1.add(lblResultado);
 		
-		JLabel lblResPromedio = new JLabel("");
+		lblResPromedio = new JLabel("");
 		lblResPromedio.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblResPromedio.setBounds(85, 134, 309, 13);
 		panelPrincipal_1.add(lblResPromedio);
 		
-		JLabel lblResResultado = new JLabel("");
+		lblResResultado = new JLabel("");
 		lblResResultado.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		lblResResultado.setBounds(85, 157, 309, 13);
 		panelPrincipal_1.add(lblResResultado);
@@ -173,26 +178,46 @@ public class VentanaConsulta extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btnConsultar) {
-			Persona miEstudiante = misProcesos.obtenerEstudiante(txtDocumento.getText());
+			//Persona miEstudiante = misProcesos.obtenerEstudiante(txtDocumento.getText());
+			Persona miEstudiante = miCoordinador.obtenerEstudiante(txtDocumento.getText());
 			if(miEstudiante!=null) {
 				txtNombre.setText(miEstudiante.getNombre());
 				txtNota1.setText(String.valueOf(miEstudiante.getNota1()));
 				txtNota2.setText(String.valueOf(miEstudiante.getNota2()));
 				txtNota3.setText(String.valueOf(miEstudiante.getNota3()));
+				rellenarEtiquetasResultado(miEstudiante);
 			}else {
 				txtNombre.setText("");
 				txtNota1.setText("");
 				txtNota2.setText("");
 				txtNota3.setText("");
+				limpiarEtiquetasResultado();
 				JOptionPane.showMessageDialog(null, "Error:  El registro no existe.");
 			}
 			//JOptionPane.showMessageDialog(null, "Haz presionado el boton consultar");
 		}
 		
 	}
-	//Segunda opcion para asignar el objeto procesos a la ventana
-	public void asignarProcesos(Procesos misProcesos) {
-		this.misProcesos = misProcesos;
+	
+	public void rellenarEtiquetasResultado(Persona miEstudiante) {
+		String resultado = miCoordinador.determinarAprobado(miEstudiante.getPromedio());
+			lblResPromedio.setText(String.valueOf(miEstudiante.getPromedio()));
+		if(resultado.equals("Aprobado")) {
+			lblResResultado.setText("Aprobado");
+			lblResResultado.setForeground(Color.GREEN);
+		}else {
+			lblResResultado.setText("Reprobado");
+			lblResResultado.setForeground(Color.RED);
+		}
+	}
+	
+	public void limpiarEtiquetasResultado() {
+		lblResPromedio.setText("");
+		lblResResultado.setText("");
+	}
+	
+	public void setCoordinador(Coordinador miCoordinador) {
+		this.miCoordinador = miCoordinador;
 		
 	}
 }

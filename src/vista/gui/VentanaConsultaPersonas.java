@@ -1,4 +1,4 @@
-package gui;
+package vista.gui;
 
 import java.awt.EventQueue;
 
@@ -15,15 +15,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import Operaciones.Persona;
-import Operaciones.Procesos;
+import controlador.Coordinador;
+import modelo.operaciones.Persona;
+import modelo.operaciones.Procesos;
 
 public class VentanaConsultaPersonas extends JFrame {
 
 	private JPanel panelControl;
 	private JTable tblEstudiantes;
-	private Procesos misProcesos;
 	public DefaultTableModel modelTable;
+	private Coordinador miCoordinador;
+
+	
 
 	/**
 	 * Launch the application.
@@ -72,50 +75,49 @@ public class VentanaConsultaPersonas extends JFrame {
 		
 		tblEstudiantes = new JTable();
 		
+		scrollPane.setViewportView(tblEstudiantes);
+		
+		tblEstudiantes.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		scrollPane.setViewportView(tblEstudiantes);
+	}
+
+	
+	
+	public void llenarTabla() {
+		ArrayList<Persona> misPersonas = miCoordinador.getListaPersonas();
+		crearModeloTabla();
+		for(Persona p: misPersonas ) {
+			Object[] obj = new Object[6];
+			obj[0] = p.getDocumento();
+			obj[1] = p.getNombre();
+			obj[2] = p.getNota1();
+			obj[3] = p.getNota2();
+			obj[4] = p.getNota3();
+			obj[5] = p.getPromedio();
+			modelTable.addRow(obj);
+		}
+		
+		
+	}
+	
+	public void crearModeloTabla() {
 		//Creamos un modelo para llenar la tabla
 		
 		modelTable = new DefaultTableModel();
 		tblEstudiantes.setModel(modelTable);
 		
 		//Creacion de las columnas
-		
+				
 		modelTable.addColumn("Documento");
 		modelTable.addColumn("Nombre");
 		modelTable.addColumn("Nota 1");
 		modelTable.addColumn("Nota 2");
 		modelTable.addColumn("Nota 3");
 		modelTable.addColumn("Promedio");
-		
-		scrollPane.setViewportView(tblEstudiantes);
-		
-		
-		
-		
-		tblEstudiantes.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		scrollPane.setViewportView(tblEstudiantes);
-	}
-
-	public void setProcesos(Procesos procesos) {
-		this.misProcesos = procesos;
-		
 	}
 	
-	public void llenarTabla() {
-		ArrayList<Persona> listaPersonas = misProcesos.getListaPersonas();
-		
-		//Creamos un object para cada fila
-		for(Persona persona: listaPersonas) {
-			Object[] fila = new Object[6];
-			fila[0] = persona.getDocumento();
-			fila[1] = persona.getNombre();
-			fila[2] = persona.getNota1();
-			fila[3] = persona.getNota2();
-			fila[4] = persona.getNota3();
-			fila[5] = persona.getPromedio();
-			modelTable.addRow(fila);
-		}
-		
-		
+	public void setCoordinador(Coordinador miCoordinador) {
+		this.miCoordinador = miCoordinador;
 	}
 	
 	

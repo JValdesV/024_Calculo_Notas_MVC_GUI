@@ -1,4 +1,4 @@
-package Operaciones;
+package modelo.operaciones;
 
 public class Persona {
 

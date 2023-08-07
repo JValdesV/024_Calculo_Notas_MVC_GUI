@@ -1,4 +1,4 @@
-package gui;
+package vista.gui;
 
 import java.awt.EventQueue;
 
@@ -6,8 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import Operaciones.Persona;
-import Operaciones.Procesos;
+import controlador.Coordinador;
+import modelo.operaciones.Persona;
+import modelo.operaciones.Procesos;
 
 import javax.swing.JLabel;
 import java.awt.Color;
@@ -24,7 +25,7 @@ public class VentanaConsultaGeneral extends JFrame implements ActionListener{
 	private JPanel panelPrincipal;
 	private JLabel lblImprimirInformacion;
 	private JTextArea txtArea;
-	private Procesos misProcesos;
+	private Coordinador miCoordinador;
 
 	/**
 	 * Launch the application.
@@ -75,14 +76,11 @@ public class VentanaConsultaGeneral extends JFrame implements ActionListener{
 		panelPrincipal.add(txtArea);
 	}
 
-	public void setProcesos(Procesos p) {
-		this.misProcesos = p;
-		
-	}
+	
 
 	public void mostrarListaEnArea() {
 		//Creamos una lista como soporte contenedor para trabajar con los datos en la vista actual
-		ArrayList<Persona> lista = misProcesos.getListaPersonas();
+		ArrayList<Persona> lista = miCoordinador.getListaPersonas();
 		String cadena = "";
 		System.out.println(lista.isEmpty());
 		if(!lista.isEmpty()) {
@@ -102,6 +100,11 @@ public class VentanaConsultaGeneral extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	public void setCoordinador(Coordinador miCoordinador) {
+		this.miCoordinador = miCoordinador;
 		
 	}
 	
