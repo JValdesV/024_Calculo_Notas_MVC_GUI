@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import controlador.Coordinador;
 import modelo.operaciones.Persona;
 import modelo.operaciones.Procesos;
+import modelo.vo.EstudianteVO;
 
 import javax.swing.JLabel;
 import java.awt.Color;
@@ -80,13 +81,13 @@ public class VentanaConsultaGeneral extends JFrame implements ActionListener{
 
 	public void mostrarListaEnArea() {
 		//Creamos una lista como soporte contenedor para trabajar con los datos en la vista actual
-		ArrayList<Persona> lista = miCoordinador.getListaPersonas();
+		ArrayList<EstudianteVO> lista = miCoordinador.getListaPersonas();
 		String cadena = "";
 		System.out.println(lista.isEmpty());
 		if(!lista.isEmpty()) {
 			cadena = "Información Personas\n";
 			
-			for(Persona p:lista) {
+			for(EstudianteVO p:lista) {
 				cadena+=p.toString()+"\n";
 			}
 			

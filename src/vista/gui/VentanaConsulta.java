@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import controlador.Coordinador;
 import modelo.operaciones.Persona;
 import modelo.operaciones.Procesos;
+import modelo.vo.EstudianteVO;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -33,6 +34,9 @@ public class VentanaConsulta extends JFrame implements ActionListener{
 	private JButton btnConsultar;
 	private JLabel lblResPromedio;
 	private JLabel lblResResultado;
+	private JButton btnEliminar;
+	private JButton btnActualizar;
+	private JLabel lblActualizar;
 	
 	//Se crea la variable Coordinador que establece todos los parametros necesarios
 	private Coordinador miCoordinador;
@@ -156,7 +160,7 @@ public class VentanaConsulta extends JFrame implements ActionListener{
 		lblResResultado.setBounds(85, 157, 309, 13);
 		panelPrincipal_1.add(lblResResultado);
 		
-		btnConsultar = new JButton("Consultar");
+		btnConsultar = new JButton("Registrar");
 		btnConsultar.setFont(new Font("Tahoma", Font.PLAIN, 20));
 		btnConsultar.setBounds(14, 193, 390, 33);
 		btnConsultar.addActionListener(this);
@@ -173,15 +177,32 @@ public class VentanaConsulta extends JFrame implements ActionListener{
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1.setBounds(265, 47, 73, 13);
 		panelPrincipal_1.add(lblNewLabel_1);
+		
+		btnEliminar = new JButton("Eliminar");
+		btnEliminar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnEliminar.setBounds(234, 249, 170, 45);
+		btnEliminar.addActionListener(this);
+		panelPrincipal_1.add(btnEliminar);
+		
+		btnActualizar = new JButton("Actualizar");
+		btnActualizar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnActualizar.setBounds(14, 249, 166, 45);
+		btnActualizar.addActionListener(this);
+		panelPrincipal_1.add(btnActualizar);
+		
+		lblActualizar = new JLabel("New label");
+		lblActualizar.setBounds(14, 316, 390, 36);
+		panelPrincipal_1.add(lblActualizar);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==btnConsultar) {
-			//Persona miEstudiante = misProcesos.obtenerEstudiante(txtDocumento.getText());
-			Persona miEstudiante = miCoordinador.obtenerEstudiante(txtDocumento.getText());
+			EstudianteVO miEstudiante = miCoordinador.obtenerEstudiante(txtDocumento.getText());
+			
 			if(miEstudiante!=null) {
 				txtNombre.setText(miEstudiante.getNombre());
+				System.out.println(miEstudiante.getNombre());
 				txtNota1.setText(String.valueOf(miEstudiante.getNota1()));
 				txtNota2.setText(String.valueOf(miEstudiante.getNota2()));
 				txtNota3.setText(String.valueOf(miEstudiante.getNota3()));
@@ -192,14 +213,49 @@ public class VentanaConsulta extends JFrame implements ActionListener{
 				txtNota2.setText("");
 				txtNota3.setText("");
 				limpiarEtiquetasResultado();
-				JOptionPane.showMessageDialog(null, "Error:  El registro no existe.");
+				JOptionPane.showMessageDialog(null, "Error:  El estudiante no existe.");
 			}
-			//JOptionPane.showMessageDialog(null, "Haz presionado el boton consultar");
+		}
+		if(e.getSource()==btnActualizar) {
+			System.out.println("Se presiono el boton actualizar");
+			EstudianteVO miEstudianteVO = new EstudianteVO();
+			miEstudianteVO.setDocumento(txtDocumento.getText());
+			miEstudianteVO.setNombre(txtNombre.getText());
+			miEstudianteVO.setNota1(Double.parseDouble(txtNota1.getText()));
+			miEstudianteVO.setNota2(Double.parseDouble(txtNota2.getText()));
+			miEstudianteVO.setNota3(Double.parseDouble(txtNota3.getText()));
+			miEstudianteVO.setPromedio(miCoordinador.calcularPromedio(miEstudianteVO));
+			
+			String respuesta = miCoordinador.actualizarEstudiante(miEstudianteVO);
+			
+			if(respuesta.equals("ok")) {
+				rellenarEtiquetasResultado(miEstudianteVO);
+				lblActualizar.setText("Se actualizo correctamente");
+			}else {
+				lblActualizar.setText("No se actualizo");
+			}
+			
+		}
+		if(e.getSource()==btnEliminar) {
+			//JOptionPane.showMessageDialog(null, "Boton Eliminar","Eliminar",JOptionPane.INFORMATION_MESSAGE);
+			String documento = txtDocumento.getText();
+			String resp = miCoordinador.eliminarEstudiante(documento);
+			
+			if(resp.equals("ok")) {
+				lblActualizar.setText("Se pudo eliminar el registro");
+				limpiarCampos();
+			}else {
+				lblActualizar.setText("No se pudo eliminar el registro");
+			}
+		
+		
+		
+		
 		}
 		
 	}
 	
-	public void rellenarEtiquetasResultado(Persona miEstudiante) {
+	public void rellenarEtiquetasResultado(EstudianteVO miEstudiante) {
 		String resultado = miCoordinador.determinarAprobado(miEstudiante.getPromedio());
 			lblResPromedio.setText(String.valueOf(miEstudiante.getPromedio()));
 		if(resultado.equals("Aprobado")) {
@@ -209,6 +265,16 @@ public class VentanaConsulta extends JFrame implements ActionListener{
 			lblResResultado.setText("Reprobado");
 			lblResResultado.setForeground(Color.RED);
 		}
+	}
+	
+	public void limpiarCampos() {
+		txtDocumento.setText("");
+		txtNombre.setText("");
+		txtNota1.setText("");
+		txtNota2.setText("");
+		txtNota3.setText("");
+		lblResPromedio.setText("");
+		lblResResultado.setText("");
 	}
 	
 	public void limpiarEtiquetasResultado() {

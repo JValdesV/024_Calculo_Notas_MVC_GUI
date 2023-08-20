@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import controlador.Coordinador;
 import modelo.operaciones.Persona;
 import modelo.operaciones.Procesos;
+import modelo.vo.EstudianteVO;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -208,31 +209,36 @@ public class VentanaOperaciones extends JFrame implements ActionListener{
 	public void calcularPromedio() {
 		
 		//Creamos un objeto para dar soporte a los datos
-		Persona estudiante = new Persona();
-		estudiante.setNombre(txtNombre.getText());
-		estudiante.setDocumento(txtDocumento.getText());
+		//Persona estudiante = new Persona();
+		EstudianteVO estudianteVO = new EstudianteVO();
+		estudianteVO.setNombre(txtNombre.getText());
+		estudianteVO.setDocumento(txtDocumento.getText());
 		
 		try {
-			estudiante.setNota1(Double.parseDouble(txtNota1.getText()));
-			estudiante.setNota2(Double.parseDouble(txtNota2.getText()));
-			estudiante.setNota3(Double.parseDouble(txtNota3.getText()));
+			estudianteVO.setNota1(Double.parseDouble(txtNota1.getText()));
+			estudianteVO.setNota2(Double.parseDouble(txtNota2.getText()));
+			estudianteVO.setNota3(Double.parseDouble(txtNota3.getText()));
 			
 			//Calculamos el promedio a partir del coordinador
-			estudiante.setPromedio(miCoordinador.calcularPromedio(estudiante.getNota1(),estudiante.getNota2(),estudiante.getNota3()));			
+			estudianteVO.setPromedio(miCoordinador.calcularPromedio(estudianteVO.getNota1(),estudianteVO.getNota2(),estudianteVO.getNota3()));			
 			//Se setea el promedio
-			lblResPromedio.setText(String.valueOf(estudiante.getPromedio()));
+			lblResPromedio.setText(String.valueOf(estudianteVO.getPromedio()));
 			//Se almacena al estudiante
-			miCoordinador.registrarBD(estudiante);
+			String respuesta =  miCoordinador.registrarBD(estudianteVO);
 			//Determinado si aprueba o reprueba
-			String resultado = miCoordinador.determinarAprobado(estudiante.getPromedio());
-			
-			if(resultado.equals("Aprobado")) {
-				lblResResultado.setText("Aprobado");
-				lblResResultado.setForeground(Color.GREEN);
+			String resultado = miCoordinador.determinarAprobado(estudianteVO.getPromedio());
+			if(respuesta.equals("ok")) {
+				if(resultado.equals("Aprobado")) {
+					lblResResultado.setText("Aprobado");
+					lblResResultado.setForeground(Color.GREEN);
+				}else {
+					lblResResultado.setText("Reprobado");
+					lblResResultado.setForeground(Color.RED);
+				}
 			}else {
-				lblResResultado.setText("Reprobado");
-				lblResResultado.setForeground(Color.RED);
+				JOptionPane.showMessageDialog(null, "No se pudo registrar","ERROR",JOptionPane.WARNING_MESSAGE);
 			}
+			
 		}catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(null, "Se solicita un valor numerico ¡No texto en un campo!","Error",JOptionPane.ERROR_MESSAGE);
 		} 

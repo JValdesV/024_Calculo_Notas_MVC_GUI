@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import controlador.Coordinador;
 import modelo.operaciones.Persona;
 import modelo.operaciones.Procesos;
+import modelo.vo.EstudianteVO;
 
 public class VentanaConsultaPersonas extends JFrame {
 
@@ -84,9 +85,9 @@ public class VentanaConsultaPersonas extends JFrame {
 	
 	
 	public void llenarTabla() {
-		ArrayList<Persona> misPersonas = miCoordinador.getListaPersonas();
+		ArrayList<EstudianteVO> misPersonas = miCoordinador.getListaPersonas();
 		crearModeloTabla();
-		for(Persona p: misPersonas ) {
+		for(EstudianteVO p: misPersonas ) {
 			Object[] obj = new Object[6];
 			obj[0] = p.getDocumento();
 			obj[1] = p.getNombre();

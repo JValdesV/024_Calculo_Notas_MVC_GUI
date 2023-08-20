@@ -1,5 +1,6 @@
 package controlador;
 
+import modelo.dao.EstudianteDAO;
 import modelo.operaciones.Procesos;
 import vista.gui.VentanaConsulta;
 import vista.gui.VentanaConsultaGeneral;
@@ -14,6 +15,7 @@ public class Relaciones {
 		VentanaConsulta ventanaConsulta = new VentanaConsulta();
 		VentanaConsultaGeneral ventanaConsultaGeneral = new VentanaConsultaGeneral();
 		VentanaConsultaPersonas ventanaConsultaPersonas = new VentanaConsultaPersonas();
+		EstudianteDAO miEstudianteDAO = new EstudianteDAO();
 		Procesos misProcesos = new Procesos();
 		Coordinador miCoordinador = new Coordinador();
 		
@@ -23,6 +25,7 @@ public class Relaciones {
 		ventanaConsultaGeneral.setCoordinador(miCoordinador);
 		ventanaConsultaPersonas.setCoordinador(miCoordinador);
 		misProcesos.setCoordinador(miCoordinador);
+		miEstudianteDAO.setCoordinador(miCoordinador);
 		
 		//Se establecen la relaciones con la clase coordinador
 		miCoordinador.setVentanaOperaciones(ventanaOperaciones);
@@ -30,6 +33,7 @@ public class Relaciones {
 		miCoordinador.setVentanaConsultaGeneral(ventanaConsultaGeneral);
 		miCoordinador.setVentanaConsultaPersonas(ventanaConsultaPersonas);
 		miCoordinador.setProcesos(misProcesos);
+		miCoordinador.setEstudianteDAO(miEstudianteDAO);
 		
 		miCoordinador.mostrarVentanaOperaciones();
 		

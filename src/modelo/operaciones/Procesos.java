@@ -6,14 +6,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import controlador.Coordinador;
+import modelo.vo.EstudianteVO;
 
 public class Procesos {
 	
-	List<Persona> listaPersonas;
+	List<EstudianteVO> listaPersonas;
 	private Coordinador miCoordinador;
 	
 	public Procesos() {
-		listaPersonas = new ArrayList<Persona>();
+		listaPersonas = new ArrayList<EstudianteVO>();
 	}
 	
 	
@@ -35,7 +36,12 @@ public class Procesos {
 		return resultado;
 	}
 	
-	public void registrarBD(Persona p) {
+	public double calcularPromedio(EstudianteVO e) {
+		double resultado = (e.getNota1()+e.getNota2()+e.getNota3())/3;
+		return resultado;
+	}
+	
+	public void registrarBD(EstudianteVO p) {
 		System.out.println("Se registra en la Base de Datos");
 		listaPersonas.add(p);
 		System.out.println(p.toString());
@@ -45,26 +51,15 @@ public class Procesos {
 		listaPersonas.forEach((obj -> System.out.println(obj)));
 	}
 	
-	public Persona obtenerEstudiante(String documento) {
-		Persona p=null;
-		/*
-		//Alternativa for convencional
-		for(int i=0; i<listaPersonas.size();i++) {
-			if(listaPersonas.get(i).getDocumento()==documento) {
-				return (Persona)listaPersonas.get(i);
-			}
-		}
-		*/
+	public EstudianteVO obtenerEstudiante(String documento) {
+		EstudianteVO p=null;
 		//Alternativa orienta a POO
-		for(Persona persona: listaPersonas) {
+		for(EstudianteVO persona: listaPersonas) {
 			if(persona.getDocumento().equals(documento)) {
 				p = persona; 
 				return p;
 			}
-			System.out.println(persona);
 		}
-		
-		
 		return null;
 	}
 	
@@ -75,8 +70,8 @@ public class Procesos {
 	}*/
 	
 	//Alternativa para obtener la lista de personas
-	public ArrayList<Persona> getListaPersonas(){
-		return (ArrayList<Persona>) listaPersonas;
+	public ArrayList<EstudianteVO> getListaPersonas(){
+		return (ArrayList<EstudianteVO>) listaPersonas;
 	}
 
 

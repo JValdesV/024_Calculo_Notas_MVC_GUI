@@ -1,11 +1,14 @@
 package controlador;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import modelo.dao.EstudianteDAO;
 import modelo.operaciones.Persona;
 import modelo.operaciones.Procesos;
+import modelo.vo.EstudianteVO;
 import vista.gui.VentanaConsulta;
 import vista.gui.VentanaConsultaGeneral;
 import vista.gui.VentanaConsultaPersonas;
@@ -18,6 +21,7 @@ public class Coordinador {
 	private VentanaConsultaGeneral ventanaConsultaGeneral;
 	private VentanaConsultaPersonas ventanaConsultaPersonas;
 	private Procesos misProcesos;
+	private EstudianteDAO miEstudianteDAO;
 
 	public void setVentanaOperaciones(VentanaOperaciones ventanaOperaciones) {
 		this.ventanaOperaciones = ventanaOperaciones;
@@ -60,17 +64,28 @@ public class Coordinador {
 		return misProcesos.calcularPromedio(estudiante);
 		
 	}
+	
+	public double calcularPromedio(EstudianteVO estudiante) {
+		return misProcesos.calcularPromedio(estudiante);
+		
+	}
 
 	public String determinarAprobado(double promedio) {
 		return misProcesos.determinarAprobado(promedio);
 	}
 
-	public void registrarBD(Persona estudiante) {
-		misProcesos.registrarBD(estudiante);
+	public String registrarBD(EstudianteVO estudiante){
+		
+		try {
+			return miEstudianteDAO.registrarEstudiante(estudiante);
+		} catch (SQLException e) {
+			//e.printStackTrace();
+			return "error";			
+		}
 	}
 
 	public void mostrarVentanaConsultaPersonas() {
-		if(misProcesos.getListaPersonas().isEmpty()) {
+		if(getListaPersonas().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "No hay información en la listas");
 		}else {
 			//ventanaConsultaPersonas.setProcesos(misProcesos);
@@ -81,18 +96,51 @@ public class Coordinador {
 		
 	}
 
-	public ArrayList<Persona> getListaPersonas() {
-		return misProcesos.getListaPersonas();
+	public ArrayList<EstudianteVO> getListaPersonas() {
+		try {
+			return miEstudianteDAO.consultarListaEstudiantes();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			return new ArrayList<EstudianteVO>();
+		}
 	}
 
-	public Persona obtenerEstudiante(String documento) {
-		return misProcesos.obtenerEstudiante(documento);
+	public EstudianteVO obtenerEstudiante(String documento) {
+		try {
+			return miEstudianteDAO.consultarEstudiante(documento);
+		} catch (SQLException e) {
+			return null;
+		}
 	}
 
 	public void mostrarVentanaConsultaGeneral() {
 		ventanaConsultaGeneral.mostrarListaEnArea();
 		ventanaConsultaGeneral.setVisible(true);
 	}
+
+	public void setEstudianteDAO(EstudianteDAO miEstudianteDAO) {
+		this.miEstudianteDAO = miEstudianteDAO;
+		
+	}
+
+	public String actualizarEstudiante(EstudianteVO miEstudianteVO) {
+		try {
+			return miEstudianteDAO.actualizarEstudiante(miEstudianteVO);
+		} catch (SQLException e) {
+			return "error";
+		}
+	}
+
+	public String eliminarEstudiante(String documento) {
+		try {
+			return miEstudianteDAO.eliminarEstudiante(documento);
+		} catch (SQLException e) {
+			return "error";
+		}
+	}
+
+	
 	
 		
 

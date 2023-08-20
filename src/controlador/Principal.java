@@ -1,4 +1,5 @@
 package controlador;
+import modelo.conexion.Conexion;
 import modelo.operaciones.Procesos;
 import vista.gui.VentanaConsulta;
 import vista.gui.VentanaConsultaGeneral;
@@ -11,6 +12,11 @@ public class Principal {
 		//VentanaOperaciones miVentana = new VentanaOperaciones();
 		//miVentana.setVisible(true);
 		new Relaciones().iniciar();
+		
+		//Probando la conexion
+		Conexion miConexion = new Conexion();
+		String respuesta = miConexion.conectar();
+		System.out.println(respuesta);
 	}
 
 	
